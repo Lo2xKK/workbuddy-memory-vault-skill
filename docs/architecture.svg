@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" font-family="-apple-system, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 z" fill="#9ca3af"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="560" fill="#ffffff"/>
+
+  <!-- 标题 -->
+  <text x="480" y="40" text-anchor="middle" font-size="24" font-weight="700" fill="#111827">WorkBuddy 对话 → Obsidian 图谱记忆库</text>
+
+  <!-- 输入 -->
+  <rect x="40" y="70" width="880" height="90" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="60" y="100" font-size="15" font-weight="700" fill="#1d4ed8">输入 · WorkBuddy 数据源</text>
+  <g font-size="13" fill="#374151">
+    <text x="60" y="125">▸ 会话全文　<text fill="#6b7280">~/.workbuddy/projects/*/*.jsonl</text></text>
+    <text x="60" y="145">▸ 会话标题 / cwd　<text fill="#6b7280">~/.workbuddy/workbuddy.db (sessions)</text></text>
+    <text x="500" y="125">▸ 身份文件　<text fill="#6b7280">SOUL / IDENTITY / USER.md</text></text>
+    <text x="500" y="145">▸ 项目记忆　<text fill="#6b7280">&lt;项目根&gt;/.workbuddy/memory/*.md</text></text>
+  </g>
+
+  <!-- 箭头 -->
+  <line x1="480" y1="160" x2="480" y2="185" stroke="#9ca3af" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- 流水线标题 -->
+  <text x="60" y="205" font-size="14" font-weight="700" fill="#6d28d9">五阶段流水线</text>
+
+  <!-- 五阶段 -->
+  <g font-size="13" text-anchor="middle">
+    <rect x="40" y="215" width="150" height="60" rx="10" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="115" y="240" font-weight="700" fill="#6d28d9">① Survey</text>
+    <text x="115" y="260" fill="#6b7280">盘点增量</text>
+
+    <rect x="222" y="215" width="150" height="60" rx="10" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="297" y="240" font-weight="700" fill="#6d28d9">② Parse</text>
+    <text x="297" y="260" fill="#6b7280">解析对话</text>
+
+    <rect x="404" y="215" width="150" height="60" rx="10" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="479" y="240" font-weight="700" fill="#6d28d9">③ Extract</text>
+    <text x="479" y="260" fill="#6b7280">提取实体</text>
+
+    <rect x="586" y="215" width="150" height="60" rx="10" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="661" y="240" font-weight="700" fill="#6d28d9">④ Graph</text>
+    <text x="661" y="260" fill="#6b7280">建图谱关系</text>
+
+    <rect x="768" y="215" width="150" height="60" rx="10" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="843" y="240" font-weight="700" fill="#6d28d9">⑤ Verify</text>
+    <text x="843" y="260" fill="#6b7280">输出 + 体检</text>
+  </g>
+  <g stroke="#8b5cf6" stroke-width="2" marker-end="url(#arr)">
+    <line x1="190" y1="245" x2="218" y2="245"/>
+    <line x1="372" y1="245" x2="400" y2="245"/>
+    <line x1="554" y1="245" x2="582" y2="245"/>
+    <line x1="736" y1="245" x2="764" y2="245"/>
+  </g>
+
+  <!-- 箭头 -->
+  <line x1="480" y1="275" x2="480" y2="305" stroke="#9ca3af" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- 输出标题 -->
+  <text x="60" y="325" font-size="14" font-weight="700" fill="#059669">输出 · 三维节点 + 双链成网</text>
+
+  <!-- 三维节点 -->
+  <g font-size="13" text-anchor="middle">
+    <rect x="40" y="335" width="200" height="90" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+    <text x="140" y="360" font-weight="700" fill="#047857">10-主题 · 概念</text>
+    <text x="140" y="382" fill="#6b7280">主题聚合页 + 会话索引</text>
+    <text x="140" y="402" fill="#6b7280">[[RoboMaster 总览]]</text>
+
+    <rect x="260" y="335" width="200" height="90" rx="10" fill="#fff7ed" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="360" y="360" font-weight="700" fill="#c2410c">40-时间线 · 时间</text>
+    <text x="360" y="382" fill="#6b7280">月节点 + 双向链接</text>
+    <text x="360" y="402" fill="#6b7280">[[40-时间线/2026-09]]</text>
+
+    <rect x="480" y="335" width="200" height="90" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="580" y="360" font-weight="700" fill="#b91c1c">30-人物 · 实体</text>
+    <text x="580" y="382" fill="#6b7280">「我」的图谱锚点</text>
+    <text x="580" y="402" fill="#6b7280">[[30-人物/loxkk]]</text>
+
+    <rect x="700" y="335" width="220" height="90" rx="10" fill="#f8fafc" stroke="#64748b" stroke-width="1.5"/>
+    <text x="810" y="360" font-weight="700" fill="#334155">20-对话归档 · 全文</text>
+    <text x="810" y="382" fill="#6b7280">清洗后的会话 markdown</text>
+    <text x="810" y="402" fill="#6b7280">+ .manifest.json 增量</text>
+  </g>
+
+  <!-- 双链说明 -->
+  <rect x="40" y="445" width="880" height="70" rx="12" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="60" y="472" font-size="14" font-weight="700" fill="#111827">图谱卫生（check.py 体检）</text>
+  <text x="60" y="494" font-size="13" fill="#4b5563">断链 0 · 孤岛 0 · 「知识层 → 知识层」边越多越好（网 vs 辐射的分水岭）· 「会话 → 索引层」边越少越好</text>
+</svg>
