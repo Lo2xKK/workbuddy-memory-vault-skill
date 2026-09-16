@@ -1,4 +1,4 @@
-# 记忆库生成器（workbuddy-memory-vault-skill）
+# WorkBuddy Memory Vault · 记忆库生成器
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![CI](https://github.com/Lo2xKK/workbuddy-memory-vault-skill/actions/workflows/ci.yml/badge.svg)](https://github.com/Lo2xKK/workbuddy-memory-vault-skill/actions/workflows/ci.yml)
@@ -12,39 +12,30 @@
   <img src="docs/architecture.svg" alt="架构：五阶段流水线 + 三维节点" width="860"/>
 </p>
 
-> 灵感来自 GitHub 上的 `Ar9av/obsidian-wiki`（「编译而非堆积」）、`alvaroum/agents-vault-memory`（时间分层）、`broomva/control-metalayer`（会话文档 + MOC）。本项目借鉴其结构，针对 WorkBuddy 的数据源落地。
-
-## 一句话
-
-你周二解决了一个难题，三个月后又在另一个项目里从头解决一遍——因为答案躺在一个你永远找不到的聊天记录里。这个工具把那些记录**编译**成互联的 markdown，你拥有它、能搜它、能用图谱看它。
-
 ## 它解决什么
 
-| 维度 | 节点 | 关联方式 |
-|---|---|---|
-| **主题** | `10-主题/<主题> 会话索引.md` | 规则分类 + 会话归类 |
-| **时间** | `40-时间线/YYYY-MM.md` | 会话 ↔ 月节点双向链接 |
-| **人物** | `30-人物/<name>.md` | 身份提炼 + 关联主题 |
+- **找得到**——对话按「主题 / 时间 / 人物」三个维度成网，全文可检索；体检指标是断链 0、孤岛 0。
+- **带得走**——产物是你本地 vault 里的纯 markdown + frontmatter，不锁定任何平台。
+- **读得下**——原始记录里 95% 是工具调用与推理日志；清洗后归档只留有价值的对话正文。
+- **可重复**——幂等 + 增量，重跑只覆盖自己的产物，不碰 `~/.workbuddy/` 的原始数据。
 
-配合 `20-对话归档/`（会话全文）、`30-我的记忆/`（身份快照 + 项目记忆）、`90-原始数据/`（jsonl 备份），构成一张可检索、可追溯、成网的知识图谱。
+## 设计理念
+
+四条主张：**编译而非堆积**（产物是给人读的笔记，不是搬运的原文）；**四层职责分离**（索引层只做导航、知识层承载结论、原料层忠实记录、原始层不参与图谱）；**图谱卫生是硬指标**（知识层 ↔ 知识层的边越多越好，索引层的边越少越好）；**前提决定手段**（WorkBuddy 把结构留在了本地，所以用确定性解析，而不是靠启发式去猜）。
+
+> 完整论证、同类方案对比、真实产物样例与工程取舍 → **[docs/设计论述.md](docs/设计论述.md)**
 
 ## 快速开始
 
 ```bash
-# 1. 把脚本复制进你的 vault（脚本自定位 vault 根）
+# 1. 复制脚本进你的 vault（本仓库即 skill 包 workbuddy-memory-vault-skill）
 cp -r scripts/* <你的vault>/_tools/
-
-# 2. 从模板复制出你的配置（个人配置不进版本库）
+# 2. 复制配置模板并改成自己的（topics.json 已 gitignore）
 cp config/topics.example.json <你的vault>/_tools/topics.json
-# 编辑 <你的vault>/_tools/topics.json：改 person / topics / rules / projects / memory_roots
-
-# 3. 先空转预览，确认分类无误
+# 3. 先空转预览分类，确认无误后正式生成
 python <你的vault>/_tools/ingest.py --list
-
-# 4. 正式生成
 python <你的vault>/_tools/ingest.py
-
-# 5. 体检（目标：断链 0、孤岛 0）
+# 4. 体检（目标：断链 0、孤岛 0）
 python <你的vault>/_tools/check.py
 ```
 
@@ -58,15 +49,9 @@ python <你的vault>/_tools/check.py
 | `--full` | 忽略 `.manifest.json`，强制全量重建 |
 | `--vault <目录>` | 指定输出 vault（默认自定位） |
 | `--only <ID前缀>` | 只同步一个会话（调试） |
-| `--no-raw` | 不备份 jsonl 到 `90-原始数据/` |
-| `--no-tools` | 不输出工具调用轨迹 |
-| `--no-memory` | 不同步 `30-我的记忆/` |
-| `--no-timeline` | 不生成 `40-时间线/` |
-| `--no-person` | 不生成 `30-人物/` |
+| `--no-raw` / `--no-tools` / `--no-memory` / `--no-timeline` / `--no-person` | 分别跳过：原始 jsonl 备份 / 工具调用轨迹 / `30-我的记忆/` / `40-时间线/` / `30-人物/` |
 
-**幂等**：重复跑只覆盖自己生成的文件（`generated_by: ingest.py` 标记），绝不碰手工目录。
-**只读**：不修改 `~/.workbuddy/` 下任何东西。
-**增量**：`.manifest.json` 记录每个会话的 mtime，第二次运行只处理新增/变更。
+**幂等**：只覆盖自己生成的文件（`generated_by: ingest.py` 标记），绝不碰手工目录。**只读**：不修改 `~/.workbuddy/` 下任何东西。**增量**：`.manifest.json` 按 mtime 跳过未变更的会话。
 
 ## 目录结构与四层职责
 
@@ -85,34 +70,30 @@ python <你的vault>/_tools/check.py
 
 ## 配置（topics.example.json → topics.json）
 
-仓库只分发通用模板 `config/topics.example.json`；你把它复制成 `topics.json` 后改成自己的（`topics.json` 已 gitignore，不会泄露）。
+仓库只分发通用模板 `config/topics.example.json`；复制成 `topics.json` 后改成自己的（已 gitignore）。找不到 `topics.json` 时会自动回退到模板，零配置也能跑出结果。
 
 ```json
 {
-  "person": { "name": "我", "label": "我" },
-  "topics": { "工程与工具": { "note": "工程与工具 总览", "label": "工程与工具" } },
-  "rules": [ { "topic": "工程与工具", "match": ["skill", "github", "mcp", "obsidian"] } ],
-  "default": "日常与运维",
-  "title_overrides": { "<session-id 前缀>": "人工标题" },
-  "projects": { "d:\\path\\to\\your-project": "项目名" },
+  "person":          { "name": "我", "label": "我" },
+  "topics":          { "工程与工具": { "note": "工程与工具 总览", "label": "工程与工具" } },
+  "rules":           [ { "topic": "工程与工具", "match": ["skill", "github", "mcp"] } ],
+  "default":         "日常与运维",
+  "projects":        { "d:\\path\\to\\your-project": "项目名" },
   "project_default": "临时工作区",
-  "memory_roots": ["D:/path/to/你的工作区根目录"]
+  "memory_roots":    ["D:/path/to/你的工作区根目录"],
+  "title_overrides": { "<session-id 前缀>": "人工标题" }
 }
 ```
 
-- `rules` 顺序匹配、先中者胜，对「标题 + cwd」做包含判断
-- 改完先跑 `--list` 空转看分类，确认无误再正式跑
-- 找不到 `topics.json` 时脚本自动回退到 `topics.example.json`（零配置也能跑出结果）
+`rules` 顺序匹配、先中者胜，对「标题 + cwd」做包含判断；改完先跑 `--list` 空转看分类。
 
 ## 数据与隐私
 
-- 本仓库只开源**导入脚本与结构**，不含任何对话正文；工具也只**读取** `~/.workbuddy/`，不改动你的原始数据。你生成的 `90-原始数据/` 会含本机路径等个人信息——**若要上传公开平台，请先排除该目录**（`20-对话归档/` 是清洗后的全文，也建议一并过一眼）。
+本仓库只开源**导入脚本与结构**，不含任何对话正文；工具也只**读取** `~/.workbuddy/`，不改动你的原始数据。你生成的 `90-原始数据/` 会含本机路径等个人信息——**若要上传公开平台，请先排除该目录**（`20-对话归档/` 是清洗后的全文，也建议一并过一眼）。
 
 ## 已知局限
 
-- 「人物」维度目前是「用户本人」单一节点（从 `USER.md` 提炼），对话中提到的**第三方人物**尚未自动提取——这是后续可扩展点（需引入实体识别或 LLM 提取）。
-- 主题分类是**规则匹配**（关键词包含），不是语义理解；复杂语义需人工调 `rules` 或后续加 LLM 提取。
-- 增量判断依赖 jsonl 的 `mtime`，若外部工具改了 mtime 会误判为变更（代价只是多跑一次，无副作用）。
+「人物」维度目前只有「我」一个节点；主题分类是关键词匹配而非语义理解；增量判断依赖 jsonl 的 `mtime`。三条都是**当前的设计选择**而非待修的 bug，详述见 [设计论述 · 工程取舍与边界](docs/设计论述.md#六工程取舍与边界)。
 
 ## 开发与测试
 
@@ -122,7 +103,7 @@ pytest -q                 # 35 个单测，只覆盖纯函数，不读真实数�
 python -m py_compile scripts/*.py
 ```
 
-单测跑在 `tests/`，CI（Python 3.10 / 3.12 / 3.13 矩阵）在每次 push 与 PR 时自动执行。参与开发前请先读 [CONTRIBUTING.md](CONTRIBUTING.md)（环境准备 / 目录约定 / PR 流程 / 隐私红线）。
+单测在 `tests/`，CI（Python 3.10 / 3.12 / 3.13 矩阵）在每次 push 与 PR 时自动执行。参与开发前请先读 [CONTRIBUTING.md](CONTRIBUTING.md)（环境准备 / 目录约定 / PR 流程 / 隐私红线）。
 
 ## License
 
