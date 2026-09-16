@@ -114,6 +114,8 @@ generated_by: ingest.py
 9. **PowerShell 重定向写 UTF-16** —— Windows 下 `python ingest.py > log.txt` 会写 UTF-16，中文乱码；验证输出要么脚本内 `sys.stdout.reconfigure(encoding="utf-8")`，要么用 Python `subprocess.run(..., capture_output=True, encoding="utf-8")` 兜住再落盘。
 10. **人物节点增量漏主题** —— `topics_touched` 若只取「本次新增的 rows」，增量模式下人物节点只显示最近一批主题；必须扫描整个 `20-对话归档/` 的 frontmatter `topic` 字段（同时间线月节点的做法）。
 11. **时间线「上月/下月」导航断链** —— 直接 `[[40-时间线/{prev_month}]]` 会链向不存在的月份；导航只出现在骨架 `时间线.md` 里且只列「已存在的月份」，月节点自身不放 prev/next 链接。
+12. **配置格式与解析代码错配（`title_prefix_rules`）** —— 真实配置是**对象数组** `[{"prefix": "现在是每天早上", "title": "每日晨报（定时任务执行）"}]`（命中即整体替换为固定标题），但代码按**元组**解包（甚至把 dict 的 key 解成 `prefix` / `new`），规则永远匹配不上且**静默失效**。修法：遍历对象，`prefix` 命中则 `t = rule["title"]`。教训：动配置解析前先 `cat` 一眼**真实配置文件**，别只看 `topics.example.json`。
+13. **硬编码改配置化时漏迁默认值（`memory_roots`）** —— 开源清理把硬编码常量清成空表，却忘了把真实值写进 `config/topics.json`，导致「项目记忆同步」整块**静默失效**（记忆副本 45 → 5，全程不报错）。修法：把真实路径写回配置。教训：常量外移必须同步补默认配置文件，并对「产出物数量骤降」加自检——本次是靠冒烟复验对比数量才发现的。
 
 ---
 
