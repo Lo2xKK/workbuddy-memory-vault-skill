@@ -1,0 +1,22 @@
+[project]
+name = "workbuddy-memory-vault-skill"
+version = "1.0.0"
+description = "把 WorkBuddy 的记忆与历史对话编译成 Obsidian 图谱记忆库（主题 / 时间 / 人物三维节点）"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Lo2xKK" }]
+keywords = ["obsidian", "memory", "knowledge-graph", "workbuddy", "skill", "markdown"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Text Processing :: Markup",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["scripts"]
+testpaths = ["tests"]
