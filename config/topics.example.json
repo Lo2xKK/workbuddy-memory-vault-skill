@@ -2,9 +2,7 @@
   "_说明": "对话主题分类规则模板。复制本文件为 topics.json 后再改（topics.json 已被 gitignore，不会进公开仓库）。规则按 rules 顺序匹配、先中者胜；都不中落到 default。match 里的字符串会同时对「会话标题」和「工作目录」做包含判断（忽略大小写）。",
   "person": {
     "name": "我",
-    "label": "我",
-    "folder": "30-人物",
-    "note": "人物节点：所有对话的「我」这一端的图谱锚点"
+    "label": "我"
   },
   "topics": {
     "工作": {

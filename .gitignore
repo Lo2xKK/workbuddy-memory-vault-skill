@@ -2,10 +2,14 @@
 90-原始数据/
 
 # 试跑临时 vault
+.tmp-vault*/
 .tmp-vault/
 
 # 用户个人配置（含个人项目路径 / 会话ID 覆盖表，用 topics.example.json 作模板）
 config/topics.json
+
+# pytest 缓存
+.pytest_cache/
 
 # 内部交接文档（含个人信息，不进公开仓库）
 HANDOFF.md
