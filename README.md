@@ -1,8 +1,9 @@
 # 记忆库生成器（workbuddy-memory-vault-skill）
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![CI](https://github.com/Lo2xKK/workbuddy-memory-vault-skill/actions/workflows/ci.yml/badge.svg)](https://github.com/Lo2xKK/workbuddy-memory-vault-skill/actions/workflows/ci.yml)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![Version](https://img.shields.io/badge/version-1.0.0-brightgreen)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.1.0-brightgreen)](CHANGELOG.md)
 [![WorkBuddy](https://img.shields.io/badge/for-WorkBuddy-7C3AED)](https://www.workbuddy.cn/)
 
 把 **WorkBuddy** 的记忆与历史对话，编译成 **Obsidian 图谱记忆库**——按「主题 / 时间 / 人物」三个维度自动建立节点与双链关联。
@@ -114,6 +115,16 @@ python <你的vault>/_tools/check.py
 - 「人物」维度目前是「用户本人」单一节点（从 `USER.md` 提炼），对话中提到的**第三方人物**尚未自动提取——这是后续可扩展点（需引入实体识别或 LLM 提取）。
 - 主题分类是**规则匹配**（关键词包含），不是语义理解；复杂语义需人工调 `rules` 或后续加 LLM 提取。
 - 增量判断依赖 jsonl 的 `mtime`，若外部工具改了 mtime 会误判为变更（代价只是多跑一次，无副作用）。
+
+## 开发与测试
+
+```bash
+pip install pytest
+pytest -q                 # 35 个单测，只覆盖纯函数，不读真实数据
+python -m py_compile scripts/*.py
+```
+
+单测跑在 `tests/`，CI（Python 3.10 / 3.12 / 3.13 矩阵）在每次 push 与 PR 时自动执行。参与开发前请先读 [CONTRIBUTING.md](CONTRIBUTING.md)（环境准备 / 目录约定 / PR 流程 / 隐私红线）。
 
 ## License
 
